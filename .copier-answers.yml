@@ -1,0 +1,22 @@
+# Changes here will be overwritten by Copier
+_commit: 1.2.0
+_src_path: gh:pawamoy/copier-pdm
+author_email: pawamoy@pm.me
+author_fullname: Timothée Mazzucotelli
+author_username: pawamoy
+copyright_date: '2024'
+copyright_holder: Timothée Mazzucotelli
+copyright_holder_email: pawamoy@pm.me
+copyright_license: ISC License
+insiders: true
+insiders_repository_name: griffe-typedoc
+project_description: Signatures for entire TypeScript programs using TypeDoc.
+project_name: Griffe TypeDoc
+public_release: false
+python_package_command_line_name: griffe-typedoc
+python_package_distribution_name: griffe-typedoc
+python_package_import_name: griffe_typedoc
+repository_name: griffe-typedoc
+repository_namespace: mkdocstrings
+repository_provider: github.com
+
