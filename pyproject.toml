@@ -27,7 +27,9 @@ classifiers = [
     "Topic :: Utilities",
     "Typing :: Typed",
 ]
-dependencies = []
+dependencies = [
+    "pydantic>=1.10.14",
+]
 
 [project.urls]
 Homepage = "https://mkdocstrings.github.io/griffe-typedoc"
