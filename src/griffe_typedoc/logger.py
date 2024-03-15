@@ -1,6 +1,6 @@
 """This module contains logging utilities.
 
-We provide the [`patch_loggers`][griffe.logger.patch_loggers]
+We provide the [`patch_loggers`][griffe_typedoc.logger.patch_loggers]
 function so dependant libraries can patch loggers as they see fit.
 
 For example, to fit in the MkDocs logging configuration
