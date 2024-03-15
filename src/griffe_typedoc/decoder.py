@@ -434,7 +434,8 @@ def _load_group(obj_dict: dict) -> Group:
 
 
 _loader_map: dict[
-    ReflectionKind | BlockTagKind | BlockTagContentKind, Callable[[dict[str, Any], dict[int, Any]], Any]
+    ReflectionKind | BlockTagKind | BlockTagContentKind,
+    Callable[[dict[str, Any], dict[int, Any]], Any],
 ] = {
     ReflectionKind.PROJECT: _load_project,
     ReflectionKind.MODULE: _load_module,

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from pathlib import Path
-from enum import Enum
-
 from dataclasses import dataclass, field
+from enum import Enum
+from pathlib import Path
+
 # from pydantic.dataclasses import dataclass, Field as field
 
 
@@ -193,7 +193,8 @@ class Source:
 
     def contents(self, base_file_path: str) -> str:
         with Path(base_file_path, self.file_name).open() as file:
-            return file.readlines()[self.line-1]
+            return file.readlines()[self.line - 1]
+
 
 @dataclass(kw_only=True)
 class Target:
@@ -300,7 +301,7 @@ class Reflection:
                     base_file_path,
                     self.root_module.name.split("/", 1)[-1],
                     "src",
-                )
+                ),
             )
             for source in self.sources
         )

@@ -15,6 +15,7 @@ logger = get_logger(__name__)
 def _double_brackets(message: str) -> str:
     return message.replace("{", "{{").replace("}", "}}")
 
+
 def load(typedoc_command: str | list[str], working_directory: str = ".") -> Project:
     with NamedTemporaryFile("r+") as tmpfile:
         if isinstance(typedoc_command, str):
@@ -27,8 +28,8 @@ def load(typedoc_command: str | list[str], working_directory: str = ".") -> Proj
             typedoc_command,
             shell=shell,
             text=True,
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.STDOUT, 
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             cwd=working_directory,
         )
         while True:
