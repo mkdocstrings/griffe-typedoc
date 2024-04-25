@@ -326,6 +326,7 @@ class Project(Reflection):
 @dataclass(kw_only=True)
 class Module(Reflection):
     package_version: str | None = None
+    readme: str | None = None
 
     @property
     def kind(self) -> ReflectionKind:
