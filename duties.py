@@ -45,7 +45,7 @@ def material_insiders() -> Iterator[bool]:  # noqa: D103
 
 
 @duty
-def changelog(ctx: Context, bump: str | None = None) -> None:
+def changelog(ctx: Context, bump: str = "") -> None:
     """Update the changelog in-place with latest commits.
 
     Parameters:
@@ -53,8 +53,8 @@ def changelog(ctx: Context, bump: str | None = None) -> None:
     """
     from git_changelog.cli import main as git_changelog
 
-    args = [f"--bump={bump}"] if bump is not None else []
-    ctx.run(git_changelog, args=[args], title="Updating changelog")
+    args = [f"--bump={bump}"] if bump else []
+    ctx.run(git_changelog, args=[args], title="Updating changelog", command="git-changelog")
 
 
 @duty(pre=["check_quality", "check_types", "check_docs", "check_dependencies", "check-api"])
@@ -193,17 +193,20 @@ def publish(ctx: Context) -> None:
     """Publish source and wheel distributions to PyPI."""
     from twine.cli import dispatch as twine_upload
 
+    if not Path("dist").exists():
+        ctx.run("false", title="No distribution files found")
+    dists = [str(dist) for dist in Path("dist").iterdir()]
     ctx.run(
         twine_upload,
-        args=[["upload", "-r", "pypi", "dist/*"]],
+        args=[["upload", "-r", "pypi", "--skip-existing", *dists]],
         title="Publish source and wheel distributions to PyPI",
-        command="twine upload -r pypi dist/*",
+        command="twine upload -r pypi --skip-existing dist/*",
         pty=PTY,
     )
 
 
-@duty(post=["docs-deploy", "build", "publish"])
-def release(ctx: Context, version: str | None = None) -> None:
+@duty(post=["build", "publish", "docs-deploy"])
+def release(ctx: Context, version: str = "") -> None:
     """Release a new Python package.
 
     Parameters:
@@ -222,8 +225,6 @@ def release(ctx: Context, version: str | None = None) -> None:
     ctx.run(f"git tag {version}", title="Tagging commit", pty=PTY)
     ctx.run("git push", title="Pushing commits", pty=False)
     ctx.run("git push --tags", title="Pushing tags", pty=False)
-    ctx.run("pyproject-build", title="Building dist/wheel", pty=PTY)
-    ctx.run("twine upload --skip-existing dist/*", title="Publishing version", pty=PTY)
 
 
 @duty(silent=True, aliases=["coverage"])
