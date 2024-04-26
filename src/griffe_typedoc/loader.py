@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 from tempfile import NamedTemporaryFile
@@ -24,6 +25,8 @@ def load(typedoc_command: str | list[str], working_directory: str = ".") -> Proj
         else:
             typedoc_command += ["--json", tmpfile.name]
             shell = False
+        env = os.environ.copy()
+        env["NO_COLOR"] = "1"
         process = subprocess.Popen(
             typedoc_command,
             shell=shell,
@@ -31,12 +34,13 @@ def load(typedoc_command: str | list[str], working_directory: str = ".") -> Proj
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             cwd=working_directory,
+            env=env,
         )
         while True:
             if line := process.stdout.readline().strip():  # type: ignore[union-attr]
                 level, line = line.split(" ", 1)
-                level = match.group(1) if (match := re.search(r"\[(\w+)\]", level)) else "INFO"
-                getattr(logger, level)(_double_brackets(line))
+                level = match.group(1) if (match := re.search(r"\[(\w+)\]", level)) else "info"
+                getattr(logger, level.lower())(_double_brackets(line))
             else:
                 break
         process.wait()
