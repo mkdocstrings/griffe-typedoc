@@ -35,7 +35,7 @@ def load(typedoc_command: str | list[str], working_directory: str = ".") -> Proj
         while True:
             if line := process.stdout.readline().strip():  # type: ignore[union-attr]
                 level, line = line.split(" ", 1)
-                level = re.search(r"\[(\w+)\]", level).group(1)
+                level = match.group(1) if (match := re.search(r"\[(\w+)\]", level)) else "INFO"
                 getattr(logger, level)(_double_brackets(line))
             else:
                 break
