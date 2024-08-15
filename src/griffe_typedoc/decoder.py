@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+from contextlib import suppress
 from functools import wraps
 from typing import Any, Callable
 
@@ -72,10 +73,8 @@ def _loader(func: Callable[[dict], Any]) -> Callable[[dict[str, Any], dict[int, 
         # Assign object as parent on children.
         if "children" in obj_dict:
             for child in obj.children:
-                try:
+                with suppress(AttributeError):  # ints in groups
                     child.parent = obj
-                except AttributeError:
-                    pass  # ints in groups
 
         return obj
 
@@ -505,7 +504,15 @@ _loader_map: dict[
 
 
 class TypedocDecoder(json.JSONDecoder):
-    def __init__(self, *args, **kwargs) -> None:
+    """JSON decoder."""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initialize the decoder.
+
+        Parameters:
+            *args: Arguments passed to parent init method.
+            *kwargs: Keyword arguments passed to parent init method.
+        """
         kwargs["object_hook"] = self._object_hook
         super().__init__(*args, **kwargs)
         self._symbol_map: dict[int, Any] = {}
@@ -514,11 +521,6 @@ class TypedocDecoder(json.JSONDecoder):
         """Decode dictionaries as data classes.
 
         The [`json.loads`][] method walks the tree from bottom to top.
-
-        Examples:
-            >>> import json
-            >>> from griffe.encoders import json_decoder
-            >>> json.loads(..., object_hook=json_decoder)
 
         Parameters:
             obj_dict: The dictionary to decode.
@@ -561,5 +563,3 @@ class TypedocDecoder(json.JSONDecoder):
 
         # Return dict as is.
         return obj_dict
-
-    __all__ = ["json_decoder"]

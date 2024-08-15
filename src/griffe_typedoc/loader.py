@@ -5,10 +5,13 @@ import os
 import re
 import subprocess
 from tempfile import NamedTemporaryFile
+from typing import TYPE_CHECKING
 
-from griffe_typedoc.dataclasses import Project
 from griffe_typedoc.decoder import TypedocDecoder
 from griffe_typedoc.logger import get_logger
+
+if TYPE_CHECKING:
+    from griffe_typedoc.dataclasses import Project
 
 logger = get_logger(__name__)
 
@@ -18,6 +21,15 @@ def _double_brackets(message: str) -> str:
 
 
 def load(typedoc_command: str | list[str], working_directory: str = ".") -> Project:
+    """Load TypeScript API data using TypeDoc.
+
+    Parameters:
+        typedoc_command: Name/path of the 1`typedoc` executable, or a command as list.
+        working_directory: Where to execute the command.
+
+    Returns:
+        Top-level project object containing API data.
+    """
     with NamedTemporaryFile("r+") as tmpfile:
         if isinstance(typedoc_command, str):
             typedoc_command += f" --json {tmpfile.name}"
@@ -27,7 +39,7 @@ def load(typedoc_command: str | list[str], working_directory: str = ".") -> Proj
             shell = False
         env = os.environ.copy()
         env["NO_COLOR"] = "1"
-        process = subprocess.Popen(
+        process = subprocess.Popen(  # noqa: S603
             typedoc_command,
             shell=shell,
             text=True,

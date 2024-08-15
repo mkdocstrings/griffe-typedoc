@@ -1,33 +1,4 @@
-"""This module contains logging utilities.
-
-We provide the [`patch_loggers`][griffe_typedoc.logger.patch_loggers]
-function so dependant libraries can patch loggers as they see fit.
-
-For example, to fit in the MkDocs logging configuration
-and prefix each log message with the module name:
-
-```python
-import logging
-from griffe.logger import patch_loggers
-
-
-class LoggerAdapter(logging.LoggerAdapter):
-    def __init__(self, prefix, logger):
-        super().__init__(logger, {})
-        self.prefix = prefix
-
-    def process(self, msg, kwargs):
-        return f"{self.prefix}: {msg}", kwargs
-
-
-def get_logger(name):
-    logger = logging.getLogger(f"mkdocs.plugins.{name}")
-    return LoggerAdapter(name, logger)
-
-
-patch_loggers(get_logger)
-```
-"""
+"""This module contains logging utilities."""
 
 from __future__ import annotations
 
