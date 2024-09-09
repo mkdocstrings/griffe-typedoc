@@ -6,6 +6,8 @@ from pathlib import Path
 
 # from pydantic.dataclasses import dataclass, Field as field
 
+# TODO: Use info from https://typedoc.org/api/modules/JSONOutput.html to rebuild models!
+
 
 # https://github.com/TypeStrong/typedoc/blob/master/src/lib/models/reflections/kind.ts
 class ReflectionKind(Enum):
@@ -136,6 +138,12 @@ class BlockTagKind(Enum):
 class BlockTagContentKind(Enum):
     TEXT: str = "text"
     CODE: str = "code"
+
+
+@dataclass(kw_only=True)
+class FileRegistry:
+    entries: dict[int, str]
+    reflections: dict[int, int]
 
 
 @dataclass(kw_only=True)
@@ -310,9 +318,10 @@ class Reflection:
 @dataclass(kw_only=True)
 class Project(Reflection):
     package_name: str
-    readme: list[BlockTagContent]
+    readme: list[BlockTagContent] | None = None
     symbol_id_map: dict[int, Reflection] = field(default_factory=dict, repr=False)
     package_version: str | None = None
+    files: FileRegistry | None = None
 
     @property
     def kind(self) -> ReflectionKind:
