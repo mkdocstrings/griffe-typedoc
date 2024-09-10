@@ -247,6 +247,7 @@ class Reflection:
     groups: list[Group] = field(default_factory=list)
     sources: list[Source] = field(default_factory=list)
     parent: Reflection | None = None
+    type: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -417,6 +418,8 @@ class Interface(Reflection):
 
 @dataclass(kw_only=True)
 class Constructor(Reflection):
+    signatures: list[ConstructorSignature] | None = None
+
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.CONSTRUCTOR
