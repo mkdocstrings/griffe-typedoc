@@ -61,7 +61,7 @@ class ReflectionKind(Enum):
             0x100000: cls.SET_SIGNATURE,
             0x200000: cls.TYPE_ALIAS,
             0x400000: cls.REFERENCE,
-        }.get(value)
+        }[value]
 
     def to_int(self):
         return {
@@ -88,11 +88,10 @@ class ReflectionKind(Enum):
             self.SET_SIGNATURE: 0x100000,
             self.TYPE_ALIAS: 0x200000,
             self.REFERENCE: 0x400000,
-        }.get(self)
+        }[self]
 
 
 # https://typedoc.org/guides/tags/
-# We might need to extract {@tags} as "inline tags".
 class BlockTagKind(Enum):
     ALPHA: str = "@alpha"
     BETA: str = "@beta"
@@ -107,11 +106,8 @@ class BlockTagKind(Enum):
     GROUP: str = "@group"
     HIDDEN: str = "@hidden"
     IGNORE: str = "@ignore"
-    INHERIT_DOC: str = "{@inheritDoc}"
     INTERFACE: str = "@interface"
     INTERNAL: str = "@internal"
-    LABEL: str = "{@label}"
-    LINK: str = "{@link}"
     MODULE: str = "@module"
     NAMESPACE: str = "@namespace"
     OVERLOAD: str = "@overload"
@@ -138,6 +134,8 @@ class BlockTagKind(Enum):
 class BlockTagContentKind(Enum):
     TEXT: str = "text"
     CODE: str = "code"
+    INLINE_TAG = "inline-tag"
+
 
 
 @dataclass(kw_only=True)
@@ -150,13 +148,18 @@ class FileRegistry:
 class BlockTagContent:
     kind: BlockTagContentKind
     text: str
+    target: int | str | None = None
+    ts_link_text: str | None = None
 
     def __str__(self) -> str:
-        return self.text
+        return self.markdown()
 
-    @property
-    def markdown(self) -> str:
-        return str(self)
+    def markdown(self, symbol_map: dict[int, Reflection] | None = None) -> str:
+        if self.target:
+            if isinstance(self.target, int) and symbol_map:
+                return f'<autoref identifier="{symbol_map[self.target].path}">{self.text}</autoref>'
+            return f"[{self.text}]({self.target})"
+        return self.text
 
 
 @dataclass(kw_only=True)
@@ -167,9 +170,8 @@ class BlockTag:
     def __str__(self) -> str:
         return "".join(str(block) for block in self.content)
 
-    @property
-    def markdown(self) -> str:
-        return str(self)
+    def markdown(self, **kwargs) -> str:
+        return "".join(block.markdown(**kwargs) for block in self.summary)
 
 
 @dataclass(kw_only=True)
@@ -181,9 +183,8 @@ class Comment:
     def __str__(self) -> str:
         return "".join(str(block) for block in self.summary)
 
-    @property
-    def markdown(self) -> str:
-        return str(self)
+    def markdown(self, **kwargs) -> str:
+        return "".join(block.markdown(**kwargs) for block in self.summary)
 
 
 @dataclass(kw_only=True)

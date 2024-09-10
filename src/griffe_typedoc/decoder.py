@@ -405,6 +405,12 @@ def _load_block_tag_content_code(obj_dict: dict) -> BlockTagContent:
 
 
 @_loader
+def _load_block_tag_content_inline_tag(obj_dict: dict) -> BlockTagContent:
+    obj_dict.pop("tag")
+    return BlockTagContent(kind=BlockTagContentKind.INLINE_TAG, **obj_dict)
+
+
+@_loader
 def _load_comment(obj_dict: dict) -> Comment:
     return Comment(**obj_dict)
 
@@ -472,11 +478,8 @@ _loader_map: dict[
     BlockTagKind.GROUP: _load_block_tag_group,
     BlockTagKind.HIDDEN: _load_block_tag_hidden,
     BlockTagKind.IGNORE: _load_block_tag_ignore,
-    BlockTagKind.INHERIT_DOC: _load_block_tag_inherit_doc,
     BlockTagKind.INTERFACE: _load_block_tag_interface,
     BlockTagKind.INTERNAL: _load_block_tag_internal,
-    BlockTagKind.LABEL: _load_block_tag_label,
-    BlockTagKind.LINK: _load_block_tag_link,
     BlockTagKind.MODULE: _load_block_tag_module,
     BlockTagKind.NAMESPACE: _load_block_tag_namespace,
     BlockTagKind.OVERLOAD: _load_block_tag_overload,
@@ -500,6 +503,7 @@ _loader_map: dict[
     BlockTagKind.VIRTUAL: _load_block_tag_virtual,
     BlockTagContentKind.TEXT: _load_block_tag_content_text,
     BlockTagContentKind.CODE: _load_block_tag_content_code,
+    BlockTagContentKind.INLINE_TAG: _load_block_tag_content_inline_tag,
 }
 
 
