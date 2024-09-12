@@ -220,6 +220,7 @@ class TypeKind(Enum):
     UNION: str = "union"
     TUPLE: str = "tuple"
     QUERY: str = "query"
+    OPERATOR: str = "typeOperator"
 
 
 @dataclass(kw_only=True)
@@ -238,6 +239,7 @@ class Type:
     elements: list[Type] | None = None
     prefer_values: bool | None = None
     query_type: Type | None = None
+    operator: str | None = None
 
 
 @dataclass(kw_only=True)
