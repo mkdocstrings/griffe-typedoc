@@ -473,6 +473,8 @@ class IndexSignature(Reflection):
 
 @dataclass(kw_only=True)
 class ConstructorSignature(Reflection):
+    parameters: list[Parameter] | None = None
+
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.CONSTRUCTOR_SIGNATURE
