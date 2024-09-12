@@ -219,6 +219,7 @@ class TypeKind(Enum):
     REFLECTION: str = "reflection"
     UNION: str = "union"
     TUPLE: str = "tuple"
+    QUERY: str = "query"
 
 
 @dataclass(kw_only=True)
@@ -235,6 +236,8 @@ class Type:
     types: list[Type] | None = None  # union
     declaration: TypeLiteral | None = None  # reflection
     elements: list[Type] | None = None
+    prefer_values: bool | None = None
+    query_type: Type | None = None
 
 
 @dataclass(kw_only=True)
