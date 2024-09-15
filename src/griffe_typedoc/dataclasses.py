@@ -407,6 +407,7 @@ class Function(Reflection):
 class Class(Reflection):
     extended_types: list[Type] | None = None
     extended_by: list[Type] | None = None
+    implemented_types: list[Type] | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -419,6 +420,7 @@ class Interface(Reflection):
     extended_by: list[Type] | None = None
     type_parameters: list[TypeParameter] | None = None
     index_signature: IndexSignature | None = None
+    implemented_by: list[Type] | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -451,6 +453,7 @@ class Property(Reflection):
 class Method(Reflection):
     signatures: list[CallSignature]
     overwrites: Type | None = None
+    implementation_of: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -463,6 +466,7 @@ class CallSignature(Reflection):
     parameters: list[Parameter] | None = None
     type_parameter: list[TypeParameter] | None = None
     overwrites: Type | None = None
+    implementation_of: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
