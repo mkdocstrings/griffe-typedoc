@@ -405,6 +405,9 @@ class Function(Reflection):
 
 @dataclass(kw_only=True)
 class Class(Reflection):
+    extended_types: list[Type] | None = None
+    extended_by: list[Type] | None = None
+
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.CLASS
@@ -425,6 +428,7 @@ class Interface(Reflection):
 @dataclass(kw_only=True)
 class Constructor(Reflection):
     signatures: list[ConstructorSignature] | None = None
+    overwrites: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -446,6 +450,7 @@ class Property(Reflection):
 @dataclass(kw_only=True)
 class Method(Reflection):
     signatures: list[CallSignature]
+    overwrites: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -457,6 +462,7 @@ class CallSignature(Reflection):
     type: Type
     parameters: list[Parameter] | None = None
     type_parameter: list[TypeParameter] | None = None
+    overwrites: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -476,6 +482,7 @@ class IndexSignature(Reflection):
 @dataclass(kw_only=True)
 class ConstructorSignature(Reflection):
     parameters: list[Parameter] | None = None
+    overwrites: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
