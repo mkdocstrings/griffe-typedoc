@@ -431,6 +431,7 @@ class Interface(Reflection):
 class Constructor(Reflection):
     signatures: list[ConstructorSignature] | None = None
     overwrites: Type | None = None
+    inherited_from: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -454,6 +455,7 @@ class Method(Reflection):
     signatures: list[CallSignature]
     overwrites: Type | None = None
     implementation_of: Type | None = None
+    inherited_from: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -467,6 +469,7 @@ class CallSignature(Reflection):
     type_parameter: list[TypeParameter] | None = None
     overwrites: Type | None = None
     implementation_of: Type | None = None
+    inherited_from: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -487,6 +490,7 @@ class IndexSignature(Reflection):
 class ConstructorSignature(Reflection):
     parameters: list[Parameter] | None = None
     overwrites: Type | None = None
+    inherited_from: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
