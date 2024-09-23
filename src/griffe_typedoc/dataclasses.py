@@ -529,6 +529,10 @@ class TypeParameter(Reflection):
 
 @dataclass(kw_only=True)
 class Accessor(Reflection):
+    get_signature: GetSignature | None = None
+    set_signature: SetSignature | None = None
+    overwrites: Type | None = None
+
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.ACCESSOR
@@ -536,6 +540,8 @@ class Accessor(Reflection):
 
 @dataclass(kw_only=True)
 class GetSignature(Reflection):
+    overwrites: Type | None = None
+
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.GET_SIGNATURE
@@ -543,6 +549,9 @@ class GetSignature(Reflection):
 
 @dataclass(kw_only=True)
 class SetSignature(Reflection):
+    parameters: list[Parameter] | None = None
+    overwrites: Type | None = None
+
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.SET_SIGNATURE
