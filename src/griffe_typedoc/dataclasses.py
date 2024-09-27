@@ -444,6 +444,7 @@ class Property(Reflection):
     inherited_from: Type | None = None
     overwrites: Type | None = None
     default_value: str | None = None
+    implementation_of: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -532,6 +533,7 @@ class Accessor(Reflection):
     get_signature: GetSignature | None = None
     set_signature: SetSignature | None = None
     overwrites: Type | None = None
+    implementation_of: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -541,6 +543,7 @@ class Accessor(Reflection):
 @dataclass(kw_only=True)
 class GetSignature(Reflection):
     overwrites: Type | None = None
+    implementation_of: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
