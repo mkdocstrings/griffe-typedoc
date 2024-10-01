@@ -554,6 +554,7 @@ class GetSignature(Reflection):
 class SetSignature(Reflection):
     parameters: list[Parameter] | None = None
     overwrites: Type | None = None
+    implementation_of: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -576,3 +577,4 @@ class Reference(Reflection):
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.REFERENCE
+
