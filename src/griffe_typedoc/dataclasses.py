@@ -221,6 +221,7 @@ class TypeKind(Enum):
     TUPLE: str = "tuple"
     QUERY: str = "query"
     OPERATOR: str = "typeOperator"
+    INTERSECTION: str = "intersection"
 
 
 @dataclass(kw_only=True)
@@ -408,6 +409,7 @@ class Class(Reflection):
     extended_types: list[Type] | None = None
     extended_by: list[Type] | None = None
     implemented_types: list[Type] | None = None
+    index_signatures: list[IndexSignature] | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -421,6 +423,7 @@ class Interface(Reflection):
     type_parameters: list[TypeParameter] | None = None
     index_signature: IndexSignature | None = None
     implemented_by: list[Type] | None = None
+    index_signatures: list[IndexSignature] | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -564,6 +567,8 @@ class SetSignature(Reflection):
 @dataclass(kw_only=True)
 class TypeAlias(Reflection):
     type: Type
+    type_parameters: list[TypeParameter] | None = None
+    implemented_by: list[Type] | None = None
 
     @property
     def kind(self) -> ReflectionKind:
