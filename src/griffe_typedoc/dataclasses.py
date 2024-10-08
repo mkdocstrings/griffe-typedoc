@@ -516,7 +516,7 @@ class Parameter(Reflection):
 @dataclass(kw_only=True)
 class TypeLiteral(Reflection):
     signatures: list[CallSignature] | None = None
-    index_signature: IndexSignature | None = None
+    index_signatures: list[IndexSignature] | None = None
 
     @property
     def kind(self) -> ReflectionKind:
