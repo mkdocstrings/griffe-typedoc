@@ -539,6 +539,7 @@ class Accessor(Reflection):
     set_signature: SetSignature | None = None
     overwrites: Type | None = None
     implementation_of: Type | None = None
+    inherited_from: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -549,6 +550,7 @@ class Accessor(Reflection):
 class GetSignature(Reflection):
     overwrites: Type | None = None
     implementation_of: Type | None = None
+    inherited_from: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
@@ -560,6 +562,7 @@ class SetSignature(Reflection):
     parameters: list[Parameter] | None = None
     overwrites: Type | None = None
     implementation_of: Type | None = None
+    inherited_from: Type | None = None
 
     @property
     def kind(self) -> ReflectionKind:
