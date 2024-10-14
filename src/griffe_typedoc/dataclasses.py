@@ -222,6 +222,7 @@ class TypeKind(Enum):
     QUERY: str = "query"
     OPERATOR: str = "typeOperator"
     INTERSECTION: str = "intersection"
+    MAPPED: str = "mapped"
 
 
 @dataclass(kw_only=True)
@@ -241,6 +242,9 @@ class Type:
     prefer_values: bool | None = None
     query_type: Type | None = None
     operator: str | None = None
+    parameter: str | None = None
+    parameter_type: Type | None = None
+    template_type: Type | None = None
 
 
 @dataclass(kw_only=True)
