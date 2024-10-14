@@ -425,6 +425,7 @@ class Interface(Reflection):
     index_signature: IndexSignature | None = None
     implemented_by: list[Type] | None = None
     index_signatures: list[IndexSignature] | None = None
+    signatures: list[CallSignature] | None = None
 
     @property
     def kind(self) -> ReflectionKind:
