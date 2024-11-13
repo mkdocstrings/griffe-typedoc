@@ -21,6 +21,7 @@ from griffe_typedoc.dataclasses import (
     ConstructorSignature,
     Enum,
     EnumMember,
+    FileRegistry,
     Function,
     GetSignature,
     Group,
@@ -102,6 +103,11 @@ def _loader(func: Callable[[dict], Any]) -> Callable[[dict[str, Any], dict[int, 
 @_loader
 def _load_project(obj_dict: dict) -> Project:
     return Project(**obj_dict)
+
+
+@_loader
+def _load_file_registry(obj_dict: dict) -> FileRegistry:
+    return FileRegistry(**obj_dict)
 
 
 @_loader
@@ -579,6 +585,10 @@ class TypedocDecoder(json.JSONDecoder):
         # Load groups.
         if set(obj_dict.keys()) == {"title", "children"}:
             return _load_group(obj_dict, self._symbol_map)
+
+        # Load file registry.
+        if set(obj_dict.keys()) == {"entries", "reflections"}:
+            return _load_file_registry(obj_dict, self._symbol_map)
 
         # Return dict as is.
         return obj_dict

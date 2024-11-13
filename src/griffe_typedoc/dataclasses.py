@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
+from functools import cached_property
 from pathlib import Path
 
 # from pydantic.dataclasses import dataclass, Field as field
@@ -143,6 +144,13 @@ class FileRegistry:
     entries: dict[int, str]
     reflections: dict[int, int]
 
+    @cached_property
+    def reverse_reflections(self) -> dict[int, int]:
+        return {value: key for key, value in self.reflections.items()}
+
+    def filepath(self, reflection_id: int) -> str:
+        return self.entries[self.reverse_reflections[reflection_id]]
+
 
 @dataclass(kw_only=True)
 class BlockTagContent:
@@ -200,8 +208,13 @@ class Source:
     character: int
     url: str | None = None
 
-    def contents(self, base_file_path: str) -> str:
-        with Path(base_file_path, self.file_name).open() as file:
+    @property
+    def filepath(self) -> str:
+        return self.parent.root.files.filepath(self.parent.root_module.id)
+
+    @property
+    def contents(self) -> str:
+        with Path(self.filepath).open() as file:
             return file.readlines()[self.line - 1]
 
 
@@ -314,17 +327,10 @@ class Reflection:
             for group in self.groups
         ]
 
-    def source_contents(self, base_file_path: str = ".") -> str:
-        return "\n".join(
-            source.contents(
-                base_file_path=Path(
-                    base_file_path,
-                    self.root_module.name.split("/", 1)[-1],
-                    "src",
-                ),
-            )
-            for source in self.sources
-        )
+    # TODO: Optimize: get source once (cache it), use line numbers of all sources to get relevant lines.
+    @property
+    def source_contents(self) -> str:
+        return "\n".join(source.contents for source in self.sources).rstrip().removesuffix("{")
 
 
 @dataclass(kw_only=True)
