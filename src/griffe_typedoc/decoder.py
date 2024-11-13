@@ -76,6 +76,24 @@ def _loader(func: Callable[[dict], Any]) -> Callable[[dict[str, Any], dict[int, 
                 with suppress(AttributeError):  # ints in groups
                     child.parent = obj
 
+        if "signatures" in obj_dict:
+            for signature in obj.signatures:
+                signature.parent = obj
+
+        if "parameters" in obj_dict:
+            for parameter in obj.parameters:
+                parameter.parent = obj
+
+        if "set_signature" in obj_dict:
+            obj.set_signature.parent = obj
+
+        if "get_signature" in obj_dict:
+            obj.get_signature.parent = obj
+
+        if "sources" in obj_dict:
+            for source in obj.sources:
+                source.parent = obj
+
         return obj
 
     return wrapper
@@ -113,10 +131,7 @@ def _load_variable(obj_dict: dict) -> Variable:
 
 @_loader
 def _load_function(obj_dict: dict) -> Function:
-    function = Function(**obj_dict)
-    for signature in function.signatures:
-        signature.parent = function
-    return function
+    return Function(**obj_dict)
 
 
 @_loader
