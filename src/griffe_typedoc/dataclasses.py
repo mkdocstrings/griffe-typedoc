@@ -214,8 +214,12 @@ class Source:
 
     @property
     def contents(self) -> str:
-        with Path(self.filepath).open() as file:
-            return file.readlines()[self.line - 1]
+        try:
+            with Path(self.filepath).open() as file:
+                return file.readlines()[self.line - 1]
+        except (OSError, IndexError):
+            with Path(self.filepath).with_name(self.file_name).open() as file:
+                return file.readlines()[self.line - 1]
 
 
 @dataclass(kw_only=True)
