@@ -210,7 +210,11 @@ class Source:
 
     @property
     def filepath(self) -> str:
-        return self.parent.root.files.filepath(self.parent.root_module.id)
+        root = self.parent.root
+        try:
+            return root.files.filepath(self.parent.root_module.id)
+        except IndexError:
+            return root.files.filepath(root.id)
 
     @property
     def contents(self) -> str:
