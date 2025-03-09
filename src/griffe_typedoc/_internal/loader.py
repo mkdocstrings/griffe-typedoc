@@ -7,11 +7,11 @@ import subprocess
 from tempfile import NamedTemporaryFile
 from typing import TYPE_CHECKING
 
-from griffe_typedoc.decoder import TypedocDecoder
-from griffe_typedoc.logger import get_logger
+from griffe_typedoc._internal.decoder import TypedocDecoder
+from griffe_typedoc._internal.logger import get_logger
 
 if TYPE_CHECKING:
-    from griffe_typedoc.dataclasses import Project
+    from griffe_typedoc._internal.dataclasses import Project
 
 logger = get_logger(__name__)
 

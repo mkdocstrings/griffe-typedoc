@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from functools import cached_property
 from pathlib import Path
+from typing import Any
 
 # from pydantic.dataclasses import dataclass, Field as field
 
@@ -42,7 +43,7 @@ class ReflectionKind(Enum):
     REFERENCE = "reference"
 
     @classmethod
-    def from_int(cls, value: int):
+    def from_int(cls, value: int) -> ReflectionKind:
         return {
             0x1: cls.PROJECT,
             0x2: cls.MODULE,
@@ -69,7 +70,7 @@ class ReflectionKind(Enum):
             0x400000: cls.REFERENCE,
         }[value]
 
-    def to_int(self):
+    def to_int(self) -> int:
         return {
             self.PROJECT: 0x1,
             self.MODULE: 0x2,
@@ -182,7 +183,7 @@ class BlockTag:
     def __str__(self) -> str:
         return "".join(str(block) for block in self.content)
 
-    def markdown(self, **kwargs) -> str:
+    def markdown(self, **kwargs: Any) -> str:
         return "".join(block.markdown(**kwargs) for block in self.summary)
 
 
@@ -195,7 +196,7 @@ class Comment:
     def __str__(self) -> str:
         return "".join(str(block) for block in self.summary)
 
-    def markdown(self, **kwargs) -> str:
+    def markdown(self, **kwargs: Any) -> str:
         return "".join(block.markdown(**kwargs) for block in self.summary)
 
 
