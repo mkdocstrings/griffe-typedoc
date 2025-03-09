@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass, field
 from enum import Enum
 from functools import cached_property
@@ -8,6 +9,10 @@ from pathlib import Path
 # from pydantic.dataclasses import dataclass, Field as field
 
 # TODO: Use info from https://typedoc.org/api/modules/JSONOutput.html to rebuild models!
+
+_dataclass_opts: dict[str, bool] = {}
+if sys.version_info >= (3, 10):
+    _dataclass_opts["kw_only"] = True
 
 
 # https://github.com/TypeStrong/typedoc/blob/master/src/lib/models/reflections/kind.ts
@@ -138,8 +143,7 @@ class BlockTagContentKind(Enum):
     INLINE_TAG = "inline-tag"
 
 
-
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class FileRegistry:
     entries: dict[int, str]
     reflections: dict[int, int]
@@ -152,7 +156,7 @@ class FileRegistry:
         return self.entries[self.reverse_reflections[reflection_id]]
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class BlockTagContent:
     kind: BlockTagContentKind
     text: str
@@ -170,7 +174,7 @@ class BlockTagContent:
         return self.text
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class BlockTag:
     kind: BlockTagKind
     content: list[BlockTagContent]
@@ -182,7 +186,7 @@ class BlockTag:
         return "".join(block.markdown(**kwargs) for block in self.summary)
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Comment:
     summary: list[BlockTagContent]
     tags: list[BlockTag] | None = None
@@ -195,13 +199,13 @@ class Comment:
         return "".join(block.markdown(**kwargs) for block in self.summary)
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Group:
     title: str
     children: list[int | Reflection]
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Source:
     file_name: str
     line: int
@@ -226,7 +230,7 @@ class Source:
                 return file.readlines()[self.line - 1]
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Target:
     source_file_name: str
     qualified_name: str
@@ -246,7 +250,7 @@ class TypeKind(Enum):
     MAPPED = "mapped"
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Type:
     type: TypeKind
     name: str | None = None
@@ -268,7 +272,7 @@ class Type:
     template_type: Type | None = None
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Reflection:
     id: int
     name: str
@@ -341,7 +345,7 @@ class Reflection:
         return "\n".join(source.contents for source in self.sources).rstrip().removesuffix("{")
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Project(Reflection):
     package_name: str
     readme: list[BlockTagContent] | None = None
@@ -358,7 +362,7 @@ class Project(Reflection):
         return self.symbol_id_map
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Module(Reflection):
     package_version: str | None = None
     readme: str | None = None
@@ -375,28 +379,28 @@ class Module(Reflection):
         return []
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Namespace(Reflection):
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.NAMESPACE
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Enum(Reflection):
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.ENUM
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class EnumMember(Reflection):
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.ENUM_MEMBER
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Variable(Reflection):
     type: Type
     default_value: str | None = None
@@ -406,7 +410,7 @@ class Variable(Reflection):
         return ReflectionKind.VARIABLE
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Function(Reflection):
     signatures: list[CallSignature]
 
@@ -422,7 +426,7 @@ class Function(Reflection):
         ]
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Class(Reflection):
     extended_types: list[Type] | None = None
     extended_by: list[Type] | None = None
@@ -435,7 +439,7 @@ class Class(Reflection):
         return ReflectionKind.CLASS
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Interface(Reflection):
     extended_types: list[Type] | None = None
     extended_by: list[Type] | None = None
@@ -450,7 +454,7 @@ class Interface(Reflection):
         return ReflectionKind.INTERFACE
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Constructor(Reflection):
     signatures: list[ConstructorSignature] | None = None
     overwrites: Type | None = None
@@ -461,7 +465,7 @@ class Constructor(Reflection):
         return ReflectionKind.CONSTRUCTOR
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Property(Reflection):
     type: Type
     inherited_from: Type | None = None
@@ -474,7 +478,7 @@ class Property(Reflection):
         return ReflectionKind.PROPERTY
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Method(Reflection):
     signatures: list[CallSignature]
     overwrites: Type | None = None
@@ -486,7 +490,7 @@ class Method(Reflection):
         return ReflectionKind.METHOD
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class CallSignature(Reflection):
     type: Type
     parameters: list[Parameter] | None = None
@@ -500,7 +504,7 @@ class CallSignature(Reflection):
         return ReflectionKind.CALL_SIGNATURE
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class IndexSignature(Reflection):
     type: Type
     parameters: list[Parameter] | None = None
@@ -510,7 +514,7 @@ class IndexSignature(Reflection):
         return ReflectionKind.INDEX_SIGNATURE
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class ConstructorSignature(Reflection):
     parameters: list[Parameter] | None = None
     overwrites: Type | None = None
@@ -522,7 +526,7 @@ class ConstructorSignature(Reflection):
         return ReflectionKind.CONSTRUCTOR_SIGNATURE
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Parameter(Reflection):
     type: Type | None = None
     default_value: str | None = None
@@ -532,7 +536,7 @@ class Parameter(Reflection):
         return ReflectionKind.PARAMETER
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class TypeLiteral(Reflection):
     signatures: list[CallSignature] | None = None
     index_signatures: list[IndexSignature] | None = None
@@ -542,7 +546,7 @@ class TypeLiteral(Reflection):
         return ReflectionKind.TYPE_LITERAL
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class TypeParameter(Reflection):
     type: Type | None = None
     default: Type | None = None
@@ -552,7 +556,7 @@ class TypeParameter(Reflection):
         return ReflectionKind.TYPE_PARAMETER
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Accessor(Reflection):
     get_signature: GetSignature | None = None
     set_signature: SetSignature | None = None
@@ -565,7 +569,7 @@ class Accessor(Reflection):
         return ReflectionKind.ACCESSOR
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class GetSignature(Reflection):
     overwrites: Type | None = None
     implementation_of: Type | None = None
@@ -576,7 +580,7 @@ class GetSignature(Reflection):
         return ReflectionKind.GET_SIGNATURE
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class SetSignature(Reflection):
     parameters: list[Parameter] | None = None
     overwrites: Type | None = None
@@ -588,7 +592,7 @@ class SetSignature(Reflection):
         return ReflectionKind.SET_SIGNATURE
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class TypeAlias(Reflection):
     type: Type
     type_parameters: list[TypeParameter] | None = None
@@ -599,11 +603,10 @@ class TypeAlias(Reflection):
         return ReflectionKind.TYPE_ALIAS
 
 
-@dataclass(kw_only=True)
+@dataclass(**_dataclass_opts)
 class Reference(Reflection):
     target: int
 
     @property
     def kind(self) -> ReflectionKind:
         return ReflectionKind.REFERENCE
-
