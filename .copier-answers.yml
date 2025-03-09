@@ -13,7 +13,7 @@ insiders_email: insiders@pawamoy.fr
 insiders_repository_name: griffe-typedoc
 project_description: Signatures for entire TypeScript programs using TypeDoc.
 project_name: Griffe TypeDoc
-public_release: false
+public_release: true
 python_package_command_line_name: griffe-typedoc
 python_package_distribution_name: griffe-typedoc
 python_package_import_name: griffe_typedoc
