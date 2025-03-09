@@ -13,7 +13,7 @@ from griffe_typedoc._internal.logger import get_logger
 if TYPE_CHECKING:
     from griffe_typedoc._internal.models import Project
 
-logger = get_logger(__name__)
+_logger = get_logger(__name__)
 
 
 def _double_brackets(message: str) -> str:
@@ -52,7 +52,7 @@ def load(typedoc_command: str | list[str], working_directory: str = ".") -> Proj
             if line := process.stdout.readline().strip():  # type: ignore[union-attr]
                 level, line = line.split(" ", 1)
                 level = match.group(1) if (match := re.search(r"\[(\w+)\]", level)) else "info"
-                getattr(logger, level.lower())(_double_brackets(line))
+                getattr(_logger, level.lower())(_double_brackets(line))
             else:
                 break
         process.wait()
