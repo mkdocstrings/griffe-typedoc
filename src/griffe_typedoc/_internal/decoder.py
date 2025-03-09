@@ -8,7 +8,7 @@ from contextlib import suppress
 from functools import wraps
 from typing import Any, Callable
 
-from griffe_typedoc._internal.dataclasses import (
+from griffe_typedoc._internal.models import (
     Accessor,
     BlockTag,
     BlockTagContent,
