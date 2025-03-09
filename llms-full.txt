@@ -1,0 +1,5417 @@
+# Griffe TypeDoc
+
+Signatures for entire TypeScript programs using [TypeDoc](https://typedoc.org/).
+
+Still in prototyping phase!
+
+Feedback is welcome.
+
+## Installation
+
+This project is available to sponsors only, through my Insiders program. See Insiders [explanation](https://mkdocstrings.github.io/griffe-typedoc/insiders/) and [installation instructions](https://mkdocstrings.github.io/griffe-typedoc/insiders/installation/).
+
+## Usage
+
+Add these [TypeDoc](https://typedoc.org/) configuration files to your repository:
+
+```
+📁 ./
+├── 📁 src/
+│   └── 📁 package1/
+├──  typedoc.base.json
+└──  typedoc.json
+
+```
+
+typedoc.base.json
+
+```
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "includeVersion": true
+}
+
+```
+
+typedoc.json
+
+```
+{
+  "extends": ["./typedoc.base.json"],
+  "entryPointStrategy": "packages",
+  "entryPoints": ["./src/*"]
+}
+
+```
+
+Update the entrypoints to match your file layout so that TypeDoc can find your packages. See [TypeDoc's configuration documentation](https://typedoc.org/options/configuration/).
+
+Then in each of your package, add this TypeDoc configuration file:
+
+```
+📁 ./
+├── 📁 src/
+│   └── 📁 package1/
+│       └──  typedoc.json
+├──  typedoc.base.json
+└──  typedoc.json
+
+```
+
+typedoc.json
+
+```
+{
+  "extends": ["../../typedoc.base.json"],
+  "entryPointStrategy": "expand",
+  "entryPoints": ["src/index.d.ts"]
+}
+
+```
+
+Again, update entrypoints to match your file and package layout. See [TypeDoc's configuration documentation](https://typedoc.org/options/configuration/).
+
+**Your packages must be built for TypeDoc to work.**
+
+Finally, load your TypeScript API data with Griffe TypeDoc:
+
+```
+from griffe_typedoc.loader import load
+
+data = load(
+    "typedoc",  # name or path of the typedoc executable
+    working_directory=".",  # point at your monorepo
+)
+
+```
+
+See our [API reference](https://mkdocstrings.github.io/griffe-typedoc/reference/griffe_typedoc/).
+
+# griffe_typedoc
+
+Griffe TypeDoc package.
+
+Signatures for entire TypeScript programs using TypeDoc.
+
+## Accessor
+
+```
+Accessor(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    get_signature: GetSignature | None = None,
+    set_signature: SetSignature | None = None,
+    overwrites: Type | None = None,
+    implementation_of: Type | None = None,
+    inherited_from: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### get_signature
+
+```
+get_signature: GetSignature | None = None
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### implementation_of
+
+```
+implementation_of: Type | None = None
+
+```
+
+### inherited_from
+
+```
+inherited_from: Type | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### overwrites
+
+```
+overwrites: Type | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### set_signature
+
+```
+set_signature: SetSignature | None = None
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## BlockTag
+
+```
+BlockTag(
+    *, kind: BlockTagKind, content: list[BlockTagContent]
+)
+
+```
+
+### content
+
+```
+content: list[BlockTagContent]
+
+```
+
+### kind
+
+```
+kind: BlockTagKind
+
+```
+
+### markdown
+
+```
+markdown(**kwargs: Any) -> str
+
+```
+
+## BlockTagContent
+
+```
+BlockTagContent(
+    *,
+    kind: BlockTagContentKind,
+    text: str,
+    target: int | str | None = None,
+    ts_link_text: str | None = None,
+)
+
+```
+
+### kind
+
+```
+kind: BlockTagContentKind
+
+```
+
+### target
+
+```
+target: int | str | None = None
+
+```
+
+### text
+
+```
+text: str
+
+```
+
+### ts_link_text
+
+```
+ts_link_text: str | None = None
+
+```
+
+### markdown
+
+```
+markdown(
+    symbol_map: dict[int, Reflection] | None = None,
+) -> str
+
+```
+
+## BlockTagContentKind
+
+Bases: `Enum`
+
+### CODE
+
+```
+CODE = 'code'
+
+```
+
+### INLINE_TAG
+
+```
+INLINE_TAG = 'inline-tag'
+
+```
+
+### TEXT
+
+```
+TEXT = 'text'
+
+```
+
+## BlockTagKind
+
+Bases: `Enum`
+
+### ALPHA
+
+```
+ALPHA = '@alpha'
+
+```
+
+### BETA
+
+```
+BETA = '@beta'
+
+```
+
+### CATEGORY
+
+```
+CATEGORY = '@category'
+
+```
+
+### DEFAULT_VALUE
+
+```
+DEFAULT_VALUE = '@defaultValue'
+
+```
+
+### DEPRECATED
+
+```
+DEPRECATED = '@deprecated'
+
+```
+
+### ENUM
+
+```
+ENUM = '@enum'
+
+```
+
+### EVENT
+
+```
+EVENT = '@event'
+
+```
+
+### EVENT_PROPERTY
+
+```
+EVENT_PROPERTY = '@eventProperty'
+
+```
+
+### EXAMPLE
+
+```
+EXAMPLE = '@example'
+
+```
+
+### EXPERIMENTAL
+
+```
+EXPERIMENTAL = '@experimental'
+
+```
+
+### GROUP
+
+```
+GROUP = '@group'
+
+```
+
+### HIDDEN
+
+```
+HIDDEN = '@hidden'
+
+```
+
+### IGNORE
+
+```
+IGNORE = '@ignore'
+
+```
+
+### INHERIT_DOC
+
+```
+INHERIT_DOC = '@inheritDoc'
+
+```
+
+### INTERFACE
+
+```
+INTERFACE = '@interface'
+
+```
+
+### INTERNAL
+
+```
+INTERNAL = '@internal'
+
+```
+
+### LABEL
+
+```
+LABEL = '@label'
+
+```
+
+### LINK
+
+```
+LINK = '@link'
+
+```
+
+### MODULE
+
+```
+MODULE = '@module'
+
+```
+
+### NAMESPACE
+
+```
+NAMESPACE = '@namespace'
+
+```
+
+### OVERLOAD
+
+```
+OVERLOAD = '@overload'
+
+```
+
+### OVERRIDE
+
+```
+OVERRIDE = '@override'
+
+```
+
+### PACKAGE_DOCUMENTATION
+
+```
+PACKAGE_DOCUMENTATION = '@packageDocumentation'
+
+```
+
+### PARAM
+
+```
+PARAM = '@param'
+
+```
+
+### PRIVATE
+
+```
+PRIVATE = '@private'
+
+```
+
+### PRIVATE_REMARKS
+
+```
+PRIVATE_REMARKS = '@privateRemarks'
+
+```
+
+### PROPERTY
+
+```
+PROPERTY = '@property'
+
+```
+
+### PROTECTED
+
+```
+PROTECTED = '@protected'
+
+```
+
+### PUBLIC
+
+```
+PUBLIC = '@public'
+
+```
+
+### READONLY
+
+```
+READONLY = '@readonly'
+
+```
+
+### REMARKS
+
+```
+REMARKS = '@remarks'
+
+```
+
+### RETURNS
+
+```
+RETURNS = '@returns'
+
+```
+
+### SATISFIES
+
+```
+SATISFIES = '@satisfies'
+
+```
+
+### SEALED
+
+```
+SEALED = '@sealed'
+
+```
+
+### SEE
+
+```
+SEE = '@see'
+
+```
+
+### TEMPLATE
+
+```
+TEMPLATE = '@template'
+
+```
+
+### THROWS
+
+```
+THROWS = '@throws'
+
+```
+
+### TYPE_PARAM
+
+```
+TYPE_PARAM = '@typeParam'
+
+```
+
+### VIRTUAL
+
+```
+VIRTUAL = '@virtual'
+
+```
+
+## CallSignature
+
+```
+CallSignature(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type,
+    parameters: list[Parameter] | None = None,
+    type_parameters: list[TypeParameter] | None = None,
+    overwrites: Type | None = None,
+    implementation_of: Type | None = None,
+    inherited_from: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### implementation_of
+
+```
+implementation_of: Type | None = None
+
+```
+
+### inherited_from
+
+```
+inherited_from: Type | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### overwrites
+
+```
+overwrites: Type | None = None
+
+```
+
+### parameters
+
+```
+parameters: list[Parameter] | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type
+
+```
+
+### type_parameters
+
+```
+type_parameters: list[TypeParameter] | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Class
+
+```
+Class(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    extended_types: list[Type] | None = None,
+    extended_by: list[Type] | None = None,
+    implemented_types: list[Type] | None = None,
+    index_signatures: list[IndexSignature] | None = None,
+    type_parameters: list[TypeParameter] | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### extended_by
+
+```
+extended_by: list[Type] | None = None
+
+```
+
+### extended_types
+
+```
+extended_types: list[Type] | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### implemented_types
+
+```
+implemented_types: list[Type] | None = None
+
+```
+
+### index_signatures
+
+```
+index_signatures: list[IndexSignature] | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### type_parameters
+
+```
+type_parameters: list[TypeParameter] | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Comment
+
+```
+Comment(
+    *,
+    summary: list[BlockTagContent],
+    tags: list[BlockTag] | None = None,
+    block_tags: list[BlockTag] | None = None,
+)
+
+```
+
+### block_tags
+
+```
+block_tags: list[BlockTag] | None = None
+
+```
+
+### summary
+
+```
+summary: list[BlockTagContent]
+
+```
+
+### tags
+
+```
+tags: list[BlockTag] | None = None
+
+```
+
+### markdown
+
+```
+markdown(**kwargs: Any) -> str
+
+```
+
+## Constructor
+
+```
+Constructor(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    signatures: list[ConstructorSignature] | None = None,
+    overwrites: Type | None = None,
+    inherited_from: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### inherited_from
+
+```
+inherited_from: Type | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### overwrites
+
+```
+overwrites: Type | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### signatures
+
+```
+signatures: list[ConstructorSignature] | None = None
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## ConstructorSignature
+
+```
+ConstructorSignature(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    parameters: list[Parameter] | None = None,
+    overwrites: Type | None = None,
+    inherited_from: Type | None = None,
+    type_parameters: list[TypeParameter] | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### inherited_from
+
+```
+inherited_from: Type | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### overwrites
+
+```
+overwrites: Type | None = None
+
+```
+
+### parameters
+
+```
+parameters: list[Parameter] | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### type_parameters
+
+```
+type_parameters: list[TypeParameter] | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Enum
+
+```
+Enum(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## EnumMember
+
+```
+EnumMember(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## FileRegistry
+
+```
+FileRegistry(
+    *, entries: dict[int, str], reflections: dict[int, int]
+)
+
+```
+
+### entries
+
+```
+entries: dict[int, str]
+
+```
+
+### reflections
+
+```
+reflections: dict[int, int]
+
+```
+
+### reverse_reflections
+
+```
+reverse_reflections: dict[int, int]
+
+```
+
+### filepath
+
+```
+filepath(reflection_id: int) -> str
+
+```
+
+## Function
+
+```
+Function(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    signatures: list[CallSignature],
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### exports
+
+```
+exports: list[Reflection]
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### signatures
+
+```
+signatures: list[CallSignature]
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## GetSignature
+
+```
+GetSignature(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    overwrites: Type | None = None,
+    implementation_of: Type | None = None,
+    inherited_from: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### implementation_of
+
+```
+implementation_of: Type | None = None
+
+```
+
+### inherited_from
+
+```
+inherited_from: Type | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### overwrites
+
+```
+overwrites: Type | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Group
+
+```
+Group(*, title: str, children: list[int | Reflection])
+
+```
+
+### children
+
+```
+children: list[int | Reflection]
+
+```
+
+### title
+
+```
+title: str
+
+```
+
+## IndexSignature
+
+```
+IndexSignature(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type,
+    parameters: list[Parameter] | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parameters
+
+```
+parameters: list[Parameter] | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Interface
+
+```
+Interface(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    extended_types: list[Type] | None = None,
+    extended_by: list[Type] | None = None,
+    type_parameters: list[TypeParameter] | None = None,
+    index_signature: IndexSignature | None = None,
+    implemented_by: list[Type] | None = None,
+    index_signatures: list[IndexSignature] | None = None,
+    signatures: list[CallSignature] | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### extended_by
+
+```
+extended_by: list[Type] | None = None
+
+```
+
+### extended_types
+
+```
+extended_types: list[Type] | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### implemented_by
+
+```
+implemented_by: list[Type] | None = None
+
+```
+
+### index_signature
+
+```
+index_signature: IndexSignature | None = None
+
+```
+
+### index_signatures
+
+```
+index_signatures: list[IndexSignature] | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### signatures
+
+```
+signatures: list[CallSignature] | None = None
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### type_parameters
+
+```
+type_parameters: list[TypeParameter] | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## LogLevel
+
+Bases: `Enum`
+
+Enumeration of available log levels.
+
+### critical
+
+```
+critical = 'critical'
+
+```
+
+### debug
+
+```
+debug = 'debug'
+
+```
+
+### error
+
+```
+error = 'error'
+
+```
+
+### info
+
+```
+info = 'info'
+
+```
+
+### success
+
+```
+success = 'success'
+
+```
+
+### trace
+
+```
+trace = 'trace'
+
+```
+
+### warning
+
+```
+warning = 'warning'
+
+```
+
+## Method
+
+```
+Method(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    signatures: list[CallSignature],
+    overwrites: Type | None = None,
+    implementation_of: Type | None = None,
+    inherited_from: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### implementation_of
+
+```
+implementation_of: Type | None = None
+
+```
+
+### inherited_from
+
+```
+inherited_from: Type | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### overwrites
+
+```
+overwrites: Type | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### signatures
+
+```
+signatures: list[CallSignature]
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Module
+
+```
+Module(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    package_version: str | None = None,
+    readme: str | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### exports
+
+```
+exports: list[Reflection]
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### package_version
+
+```
+package_version: str | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### readme
+
+```
+readme: str | None = None
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Namespace
+
+```
+Namespace(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Parameter
+
+```
+Parameter(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    default_value: str | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### default_value
+
+```
+default_value: str | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Project
+
+```
+Project(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    package_name: str,
+    readme: list[BlockTagContent] | None = None,
+    symbol_id_map: dict[int, Reflection] = dict(),
+    package_version: str | None = None,
+    files: FileRegistry | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### files
+
+```
+files: FileRegistry | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### package_name
+
+```
+package_name: str
+
+```
+
+### package_version
+
+```
+package_version: str | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### readme
+
+```
+readme: list[BlockTagContent] | None = None
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_id_map
+
+```
+symbol_id_map: dict[int, Reflection] = field(
+    default_factory=dict, repr=False
+)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Property
+
+```
+Property(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type,
+    inherited_from: Type | None = None,
+    overwrites: Type | None = None,
+    default_value: str | None = None,
+    implementation_of: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### default_value
+
+```
+default_value: str | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### implementation_of
+
+```
+implementation_of: Type | None = None
+
+```
+
+### inherited_from
+
+```
+inherited_from: Type | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### overwrites
+
+```
+overwrites: Type | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Reference
+
+```
+Reference(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    target: int,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### target
+
+```
+target: int
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Reflection
+
+```
+Reflection(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+)
+
+```
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## ReflectionKind
+
+Bases: `Enum`
+
+### ACCESSOR
+
+```
+ACCESSOR = 'accessor'
+
+```
+
+### CALL_SIGNATURE
+
+```
+CALL_SIGNATURE = 'call_signature'
+
+```
+
+### CLASS
+
+```
+CLASS = 'class'
+
+```
+
+### CONSTRUCTOR
+
+```
+CONSTRUCTOR = 'constructor'
+
+```
+
+### CONSTRUCTOR_SIGNATURE
+
+```
+CONSTRUCTOR_SIGNATURE = 'constructor_signature'
+
+```
+
+### ENUM
+
+```
+ENUM = 'enum'
+
+```
+
+### ENUM_MEMBER
+
+```
+ENUM_MEMBER = 'enum_member'
+
+```
+
+### FUNCTION
+
+```
+FUNCTION = 'function'
+
+```
+
+### GET_SIGNATURE
+
+```
+GET_SIGNATURE = 'get_signature'
+
+```
+
+### INDEX_SIGNATURE
+
+```
+INDEX_SIGNATURE = 'index_signature'
+
+```
+
+### INTERFACE
+
+```
+INTERFACE = 'interface'
+
+```
+
+### METHOD
+
+```
+METHOD = 'method'
+
+```
+
+### MODULE
+
+```
+MODULE = 'module'
+
+```
+
+### NAMESPACE
+
+```
+NAMESPACE = 'namespace'
+
+```
+
+### PARAMETER
+
+```
+PARAMETER = 'parameter'
+
+```
+
+### PROJECT
+
+```
+PROJECT = 'project'
+
+```
+
+### PROPERTY
+
+```
+PROPERTY = 'property'
+
+```
+
+### REFERENCE
+
+```
+REFERENCE = 'reference'
+
+```
+
+### SET_SIGNATURE
+
+```
+SET_SIGNATURE = 'set_signature'
+
+```
+
+### TYPE_ALIAS
+
+```
+TYPE_ALIAS = 'type_alias'
+
+```
+
+### TYPE_LITERAL
+
+```
+TYPE_LITERAL = 'type_literal'
+
+```
+
+### TYPE_PARAMETER
+
+```
+TYPE_PARAMETER = 'type_parameter'
+
+```
+
+### VARIABLE
+
+```
+VARIABLE = 'variable'
+
+```
+
+### from_int
+
+```
+from_int(value: int) -> ReflectionKind
+
+```
+
+### to_int
+
+```
+to_int() -> int
+
+```
+
+## SetSignature
+
+```
+SetSignature(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    parameters: list[Parameter] | None = None,
+    overwrites: Type | None = None,
+    implementation_of: Type | None = None,
+    inherited_from: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### implementation_of
+
+```
+implementation_of: Type | None = None
+
+```
+
+### inherited_from
+
+```
+inherited_from: Type | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### overwrites
+
+```
+overwrites: Type | None = None
+
+```
+
+### parameters
+
+```
+parameters: list[Parameter] | None = None
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## Source
+
+```
+Source(
+    *,
+    file_name: str,
+    line: int,
+    character: int,
+    url: str | None = None,
+)
+
+```
+
+### character
+
+```
+character: int
+
+```
+
+### contents
+
+```
+contents: str
+
+```
+
+### file_name
+
+```
+file_name: str
+
+```
+
+### filepath
+
+```
+filepath: str
+
+```
+
+### line
+
+```
+line: int
+
+```
+
+### url
+
+```
+url: str | None = None
+
+```
+
+## Target
+
+```
+Target(*, source_file_name: str, qualified_name: str)
+
+```
+
+### qualified_name
+
+```
+qualified_name: str
+
+```
+
+### source_file_name
+
+```
+source_file_name: str
+
+```
+
+## Type
+
+```
+Type(
+    *,
+    type: TypeKind,
+    name: str | None = None,
+    target: int | Target | None = None,
+    package: str | None = None,
+    type_arguments: list[Type] | None = None,
+    qualified_name: str | None = None,
+    element_type: Type | None = None,
+    refers_to_type_parameter: bool | None = None,
+    value: str | None = None,
+    types: list[Type] | None = None,
+    declaration: TypeLiteral | None = None,
+    elements: list[Type] | None = None,
+    prefer_values: bool | None = None,
+    query_type: Type | None = None,
+    operator: str | None = None,
+    parameter: str | None = None,
+    parameter_type: Type | None = None,
+    template_type: Type | None = None,
+)
+
+```
+
+### declaration
+
+```
+declaration: TypeLiteral | None = None
+
+```
+
+### element_type
+
+```
+element_type: Type | None = None
+
+```
+
+### elements
+
+```
+elements: list[Type] | None = None
+
+```
+
+### name
+
+```
+name: str | None = None
+
+```
+
+### operator
+
+```
+operator: str | None = None
+
+```
+
+### package
+
+```
+package: str | None = None
+
+```
+
+### parameter
+
+```
+parameter: str | None = None
+
+```
+
+### parameter_type
+
+```
+parameter_type: Type | None = None
+
+```
+
+### prefer_values
+
+```
+prefer_values: bool | None = None
+
+```
+
+### qualified_name
+
+```
+qualified_name: str | None = None
+
+```
+
+### query_type
+
+```
+query_type: Type | None = None
+
+```
+
+### refers_to_type_parameter
+
+```
+refers_to_type_parameter: bool | None = None
+
+```
+
+### target
+
+```
+target: int | Target | None = None
+
+```
+
+### template_type
+
+```
+template_type: Type | None = None
+
+```
+
+### type
+
+```
+type: TypeKind
+
+```
+
+### type_arguments
+
+```
+type_arguments: list[Type] | None = None
+
+```
+
+### types
+
+```
+types: list[Type] | None = None
+
+```
+
+### value
+
+```
+value: str | None = None
+
+```
+
+## TypeAlias
+
+```
+TypeAlias(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type,
+    type_parameters: list[TypeParameter] | None = None,
+    implemented_by: list[Type] | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### implemented_by
+
+```
+implemented_by: list[Type] | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type
+
+```
+
+### type_parameters
+
+```
+type_parameters: list[TypeParameter] | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## TypeKind
+
+Bases: `Enum`
+
+### ARRAY
+
+```
+ARRAY = 'array'
+
+```
+
+### INTERSECTION
+
+```
+INTERSECTION = 'intersection'
+
+```
+
+### INTRINSIC
+
+```
+INTRINSIC = 'intrinsic'
+
+```
+
+### LITERAL
+
+```
+LITERAL = 'literal'
+
+```
+
+### MAPPED
+
+```
+MAPPED = 'mapped'
+
+```
+
+### OPERATOR
+
+```
+OPERATOR = 'typeOperator'
+
+```
+
+### QUERY
+
+```
+QUERY = 'query'
+
+```
+
+### REFERENCE
+
+```
+REFERENCE = 'reference'
+
+```
+
+### REFLECTION
+
+```
+REFLECTION = 'reflection'
+
+```
+
+### TUPLE
+
+```
+TUPLE = 'tuple'
+
+```
+
+### UNION
+
+```
+UNION = 'union'
+
+```
+
+## TypeLiteral
+
+```
+TypeLiteral(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    signatures: list[CallSignature] | None = None,
+    index_signatures: list[IndexSignature] | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### index_signatures
+
+```
+index_signatures: list[IndexSignature] | None = None
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### signatures
+
+```
+signatures: list[CallSignature] | None = None
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## TypeParameter
+
+```
+TypeParameter(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type | None = None,
+    default: Type | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### default
+
+```
+default: Type | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type | None = None
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## TypedocDecoder
+
+```
+TypedocDecoder(*args: Any, **kwargs: Any)
+
+```
+
+Bases: `JSONDecoder`
+
+JSON decoder.
+
+Parameters:
+
+- **`*args`** (`Any`, default: `()` ) – Arguments passed to parent init method.
+- **`*kwargs`** (`Any`, default: `{}` ) – Keyword arguments passed to parent init method.
+
+## Variable
+
+```
+Variable(
+    *,
+    id: int,
+    name: str,
+    variant: str,
+    comment: Comment | None = None,
+    children: list[Reflection] = list(),
+    flags: dict = dict(),
+    groups: list[Group] = list(),
+    sources: list[Source] = list(),
+    parent: Reflection | None = None,
+    type: Type,
+    default_value: str | None = None,
+)
+
+```
+
+Bases: `Reflection`
+
+### children
+
+```
+children: list[Reflection] = field(default_factory=list)
+
+```
+
+### comment
+
+```
+comment: Comment | None = None
+
+```
+
+### default_value
+
+```
+default_value: str | None = None
+
+```
+
+### final_target
+
+```
+final_target: Reflection
+
+```
+
+### flags
+
+```
+flags: dict = field(default_factory=dict)
+
+```
+
+### groups
+
+```
+groups: list[Group] = field(default_factory=list)
+
+```
+
+### id
+
+```
+id: int
+
+```
+
+### kind
+
+```
+kind: ReflectionKind
+
+```
+
+### name
+
+```
+name: str
+
+```
+
+### parent
+
+```
+parent: Reflection | None = None
+
+```
+
+### path
+
+```
+path: str
+
+```
+
+### resolved_groups
+
+```
+resolved_groups: list[Group]
+
+```
+
+### resolved_target
+
+```
+resolved_target: Reflection
+
+```
+
+### root
+
+```
+root: Reflection
+
+```
+
+### root_module
+
+```
+root_module: Reflection
+
+```
+
+### source_contents
+
+```
+source_contents: str
+
+```
+
+### sources
+
+```
+sources: list[Source] = field(default_factory=list)
+
+```
+
+### symbol_map
+
+```
+symbol_map: dict[int, Reflection]
+
+```
+
+### type
+
+```
+type: Type
+
+```
+
+### variant
+
+```
+variant: str
+
+```
+
+## get_logger
+
+```
+get_logger(name: str) -> _Logger
+
+```
+
+Create and return a new logger instance.
+
+Parameters:
+
+- **`name`** (`str`) – The logger name.
+
+Returns:
+
+- `_Logger` – The logger.
+
+## get_parser
+
+```
+get_parser() -> ArgumentParser
+
+```
+
+Return the CLI argument parser.
+
+Returns:
+
+- `ArgumentParser` – An argparse parser.
+
+## load
+
+```
+load(
+    typedoc_command: str | list[str],
+    working_directory: str = ".",
+) -> Project
+
+```
+
+Load TypeScript API data using TypeDoc.
+
+Parameters:
+
+- **`typedoc_command`** (`str | list[str]`) – Name/path of the 1typedoc executable, or a command as list.
+- **`working_directory`** (`str`, default: `'.'` ) – Where to execute the command.
+
+Returns:
+
+- `Project` – Top-level project object containing API data.
+
+## main
+
+```
+main(args: list[str] | None = None) -> int
+
+```
+
+Run the main program.
+
+This function is executed when you type `griffe-typedoc` or `python -m griffe_typedoc`.
+
+Parameters:
+
+- **`args`** (`list[str] | None`, default: `None` ) – Arguments passed from the command line.
+
+Returns:
+
+- `int` – An exit code.
+
+## patch_loggers
+
+```
+patch_loggers(
+    get_logger_func: Callable[[str], Any],
+) -> None
+
+```
+
+Patch loggers.
+
+Parameters:
+
+- **`get_logger_func`** (`Callable[[str], Any]`) – A function accepting a name as parameter and returning a logger.
