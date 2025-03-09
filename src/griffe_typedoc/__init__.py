@@ -5,4 +5,6 @@ Signatures for entire TypeScript programs using TypeDoc.
 
 from __future__ import annotations
 
-__all__: list[str] = []
+from griffe_typedoc._internal.cli import get_parser, main
+
+__all__: list[str] = ["get_parser", "main"]
