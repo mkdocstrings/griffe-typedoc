@@ -10,13 +10,13 @@ from typing import Any, Callable, ClassVar
 class LogLevel(Enum):
     """Enumeration of available log levels."""
 
-    trace: str = "trace"
-    debug: str = "debug"
-    info: str = "info"
-    success: str = "success"
-    warning: str = "warning"
-    error: str = "error"
-    critical: str = "critical"
+    trace = "trace"
+    debug = "debug"
+    info = "info"
+    success = "success"
+    warning = "warning"
+    error = "error"
+    critical = "critical"
 
 
 class _Logger:

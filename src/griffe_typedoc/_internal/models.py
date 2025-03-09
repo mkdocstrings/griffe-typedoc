@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import enum
 import sys
 from dataclasses import dataclass, field
-from enum import Enum
 from functools import cached_property
 from pathlib import Path
 from typing import Any
@@ -10,6 +10,8 @@ from typing import Any
 # from pydantic.dataclasses import dataclass, Field as field
 
 # TODO: Use info from https://typedoc.org/api/modules/JSONOutput.html to rebuild models!
+# TODO: I have aggressively added type-ignore comments to this file,
+# they should all be removed and fixed (unless we rewrite the whole thing as per previous comment).
 
 _dataclass_opts: dict[str, bool] = {}
 if sys.version_info >= (3, 10):
@@ -17,7 +19,7 @@ if sys.version_info >= (3, 10):
 
 
 # https://github.com/TypeStrong/typedoc/blob/master/src/lib/models/reflections/kind.ts
-class ReflectionKind(Enum):
+class ReflectionKind(enum.Enum):
     PROJECT = "project"
     MODULE = "module"
     NAMESPACE = "namespace"
@@ -95,11 +97,11 @@ class ReflectionKind(Enum):
             self.SET_SIGNATURE: 0x100000,
             self.TYPE_ALIAS: 0x200000,
             self.REFERENCE: 0x400000,
-        }[self]
+        }[self]  # type: ignore[index]
 
 
 # https://typedoc.org/guides/tags/
-class BlockTagKind(Enum):
+class BlockTagKind(enum.Enum):
     ALPHA = "@alpha"
     BETA = "@beta"
     CATEGORY = "@category"
@@ -113,8 +115,11 @@ class BlockTagKind(Enum):
     GROUP = "@group"
     HIDDEN = "@hidden"
     IGNORE = "@ignore"
+    INHERIT_DOC = "@inheritDoc"
     INTERFACE = "@interface"
     INTERNAL = "@internal"
+    LABEL = "@label"
+    LINK = "@link"
     MODULE = "@module"
     NAMESPACE = "@namespace"
     OVERLOAD = "@overload"
@@ -138,7 +143,7 @@ class BlockTagKind(Enum):
     VIRTUAL = "@virtual"
 
 
-class BlockTagContentKind(Enum):
+class BlockTagContentKind(enum.Enum):
     TEXT = "text"
     CODE = "code"
     INLINE_TAG = "inline-tag"
@@ -184,7 +189,7 @@ class BlockTag:
         return "".join(str(block) for block in self.content)
 
     def markdown(self, **kwargs: Any) -> str:
-        return "".join(block.markdown(**kwargs) for block in self.summary)
+        return "".join(block.markdown(**kwargs) for block in self.summary)  # type: ignore[attr-defined]
 
 
 @dataclass(**_dataclass_opts)
@@ -215,9 +220,9 @@ class Source:
 
     @property
     def filepath(self) -> str:
-        root = self.parent.root
+        root = self.parent.root  # type: ignore[attr-defined]
         try:
-            return root.files.filepath(self.parent.root_module.id)
+            return root.files.filepath(self.parent.root_module.id)  # type: ignore[attr-defined]
         except IndexError:
             return root.files.filepath(root.id)
 
@@ -237,7 +242,7 @@ class Target:
     qualified_name: str
 
 
-class TypeKind(Enum):
+class TypeKind(enum.Enum):
     ARRAY = "array"
     INTRINSIC = "intrinsic"
     LITERAL = "literal"
@@ -348,7 +353,7 @@ class Reflection:
 
 @dataclass(**_dataclass_opts)
 class Project(Reflection):
-    package_name: str
+    package_name: str  # type: ignore[misc]
     readme: list[BlockTagContent] | None = None
     symbol_id_map: dict[int, Reflection] = field(default_factory=dict, repr=False)
     package_version: str | None = None
@@ -376,7 +381,7 @@ class Module(Reflection):
     def exports(self) -> list[Reflection]:
         for child in self.children:
             if child.kind is ReflectionKind.FUNCTION and child.name == "export=":
-                return child.exports
+                return child.exports  # type: ignore[attr-defined]
         return []
 
 
@@ -403,7 +408,7 @@ class EnumMember(Reflection):
 
 @dataclass(**_dataclass_opts)
 class Variable(Reflection):
-    type: Type
+    type: Type  # type: ignore[misc]
     default_value: str | None = None
 
     @property
@@ -413,7 +418,7 @@ class Variable(Reflection):
 
 @dataclass(**_dataclass_opts)
 class Function(Reflection):
-    signatures: list[CallSignature]
+    signatures: list[CallSignature]  # type: ignore[misc]
 
     @property
     def kind(self) -> ReflectionKind:
@@ -422,8 +427,14 @@ class Function(Reflection):
     @property
     def exports(self) -> list[Reflection]:
         return [
-            Reference(id=prop.id, variant="reference", name=prop.name, target=prop.type.target, parent=self.parent)
-            for prop in self.signatures[0].type.declaration.children
+            Reference(
+                id=prop.id,
+                variant="reference",
+                name=prop.name,
+                target=prop.type.target,  # type: ignore[arg-type,union-attr]
+                parent=self.parent,
+            )
+            for prop in self.signatures[0].type.declaration.children  # type: ignore[union-attr]
         ]
 
 
@@ -468,7 +479,7 @@ class Constructor(Reflection):
 
 @dataclass(**_dataclass_opts)
 class Property(Reflection):
-    type: Type
+    type: Type  # type: ignore[misc]
     inherited_from: Type | None = None
     overwrites: Type | None = None
     default_value: str | None = None
@@ -481,7 +492,7 @@ class Property(Reflection):
 
 @dataclass(**_dataclass_opts)
 class Method(Reflection):
-    signatures: list[CallSignature]
+    signatures: list[CallSignature]  # type: ignore[misc]
     overwrites: Type | None = None
     implementation_of: Type | None = None
     inherited_from: Type | None = None
@@ -493,7 +504,7 @@ class Method(Reflection):
 
 @dataclass(**_dataclass_opts)
 class CallSignature(Reflection):
-    type: Type
+    type: Type  # type: ignore[misc]
     parameters: list[Parameter] | None = None
     type_parameters: list[TypeParameter] | None = None
     overwrites: Type | None = None
@@ -507,7 +518,7 @@ class CallSignature(Reflection):
 
 @dataclass(**_dataclass_opts)
 class IndexSignature(Reflection):
-    type: Type
+    type: Type  # type: ignore[misc]
     parameters: list[Parameter] | None = None
 
     @property
@@ -595,7 +606,7 @@ class SetSignature(Reflection):
 
 @dataclass(**_dataclass_opts)
 class TypeAlias(Reflection):
-    type: Type
+    type: Type  # type: ignore[misc]
     type_parameters: list[TypeParameter] | None = None
     implemented_by: list[Type] | None = None
 
@@ -606,7 +617,7 @@ class TypeAlias(Reflection):
 
 @dataclass(**_dataclass_opts)
 class Reference(Reflection):
-    target: int
+    target: int  # type: ignore[misc]
 
     @property
     def kind(self) -> ReflectionKind:

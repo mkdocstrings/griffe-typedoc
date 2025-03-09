@@ -558,7 +558,7 @@ class TypedocDecoder(json.JSONDecoder):
             try:
                 kind = BlockTagContentKind(obj_dict["kind"])
             except ValueError:
-                kind = ReflectionKind.from_int(obj_dict["kind"])
+                kind = ReflectionKind.from_int(obj_dict["kind"])  # type: ignore[assignment]
             obj_dict.pop("kind")
             return _loader_map[kind](obj_dict, self._symbol_map)
 

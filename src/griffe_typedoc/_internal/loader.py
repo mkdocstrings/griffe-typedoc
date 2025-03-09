@@ -11,7 +11,7 @@ from griffe_typedoc._internal.decoder import TypedocDecoder
 from griffe_typedoc._internal.logger import get_logger
 
 if TYPE_CHECKING:
-    from griffe_typedoc._internal.dataclasses import Project
+    from griffe_typedoc._internal.models import Project
 
 logger = get_logger(__name__)
 
