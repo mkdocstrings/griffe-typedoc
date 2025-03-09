@@ -63,4 +63,4 @@ def patch_loggers(get_logger_func: Callable[[str], Any]) -> None:
     _Logger._patch_loggers(get_logger_func)
 
 
-__all__ = ["get_logger", "LogLevel", "patch_loggers"]
+__all__ = ["LogLevel", "get_logger", "patch_loggers"]
