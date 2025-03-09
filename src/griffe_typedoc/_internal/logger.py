@@ -1,4 +1,4 @@
-"""This module contains logging utilities."""
+# This module contains logging utilities.
 
 from __future__ import annotations
 

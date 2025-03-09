@@ -1,4 +1,4 @@
-"""This module contains a data decoder to convert TypeDoc's JSON to Python objects."""
+# This module contains a data decoder to convert TypeDoc's JSON to Python objects.
 
 from __future__ import annotations
 
