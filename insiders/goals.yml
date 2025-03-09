@@ -7,10 +7,7 @@ goals:
     features: []
   1500:
     name: HyperLamp Navigation Tips
-    features:
-    - name: "[Project] Signatures for entire TypeScript programs using TypeDoc"
-      ref: /
-      since: 2024/04/26
+    features: []
   2000:
     name: FusionDrive Ejection Configuration
     features: []

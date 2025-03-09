@@ -8,7 +8,10 @@ Feedback is welcome.
 
 ## Installation
 
-This project is available to sponsors only, through my Insiders program. See Insiders [explanation](https://mkdocstrings.github.io/griffe-typedoc/insiders/) and [installation instructions](https://mkdocstrings.github.io/griffe-typedoc/insiders/installation/).
+```
+pip install griffe-typedoc
+
+```
 
 ## Usage
 
