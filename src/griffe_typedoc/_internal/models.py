@@ -10,6 +10,11 @@ from typing import Any
 # from pydantic.dataclasses import dataclass, Field as field
 
 # TODO: Use info from https://typedoc.org/api/modules/JSONOutput.html to rebuild models!
+# We could also use https://github.com/koxudaxi/datamodel-code-generator to generate the models, after generating a JSON Schema with
+# `npx ts-json-schema-generator --path src/**/*.ts --type ProjectReflection --no-type-check`.
+# Initially discussed in https://github.com/TypeStrong/typedoc/issues/2705.
+# See issue generating schema: https://github.com/vega/ts-json-schema-generator/issues/2197.
+
 # TODO: I have aggressively added type-ignore comments to this file,
 # they should all be removed and fixed (unless we rewrite the whole thing as per previous comment).
 
