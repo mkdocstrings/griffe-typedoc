@@ -9,8 +9,18 @@ from typing import Any
 # from pydantic.dataclasses import dataclass, Field as field
 
 # TODO: Use info from https://typedoc.org/api/modules/JSONOutput.html to rebuild models!
-# We could also use https://github.com/koxudaxi/datamodel-code-generator to generate the models, after generating a JSON Schema with
-# `npx ts-json-schema-generator --path src/**/*.ts --type ProjectReflection --no-type-check`.
+# We could also use https://github.com/koxudaxi/datamodel-code-generator to generate the models,
+# after generating a JSON Schema with ts-json-schema-generator:
+#
+# ```
+# git clone https://github.com/TypeStrong/typedoc
+# cd typedoc
+# npx ts-json-schema-generator -f tsconfig.json --path src/**.ts --type ProjectReflection --no-type-check
+# uvx --from datamodel-code-generator datamodel-codegen \
+#   --input typedoc-schema.json --input-file-type jsonschema \
+#   --output-model-type dataclasses.dataclass --output models/
+# ```
+#
 # Initially discussed in https://github.com/TypeStrong/typedoc/issues/2705.
 # See issue generating schema: https://github.com/vega/ts-json-schema-generator/issues/2197.
 
