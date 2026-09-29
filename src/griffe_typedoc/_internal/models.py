@@ -1,3 +1,21 @@
+# SPDX-License-Identifier: ISC
+#
+# ISC License
+#
+# Copyright (c) 2024, Timothée Mazzucotelli and contributors
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
 from __future__ import annotations
 
 import enum
@@ -199,7 +217,7 @@ class BlockTag:
         return "".join(str(block) for block in self.content)
 
     def markdown(self, **kwargs: Any) -> str:
-        return "".join(block.markdown(**kwargs) for block in self.summary)  # type: ignore[attr-defined]
+        return "".join(block.markdown(**kwargs) for block in self.summary)  # ty:ignore[unresolved-attribute]
 
 
 @dataclass(kw_only=True)
@@ -230,9 +248,9 @@ class Source:
 
     @property
     def filepath(self) -> str:
-        root = self.parent.root  # type: ignore[attr-defined]
+        root = self.parent.root  # ty:ignore[unresolved-attribute]
         try:
-            return root.files.filepath(self.parent.root_module.id)  # type: ignore[attr-defined]
+            return root.files.filepath(self.parent.root_module.id)  # ty:ignore[unresolved-attribute]
         except IndexError:
             return root.files.filepath(root.id)
 
@@ -330,13 +348,13 @@ class Reflection:
     @property
     def symbol_map(self) -> dict[int, Reflection]:
         try:
-            return self.parent.symbol_map  # type: ignore[union-attr]
+            return self.parent.symbol_map  # ty:ignore[unresolved-attribute]
         except AttributeError:
             return {}
 
     @property
     def resolved_target(self) -> Reflection:
-        return self.symbol_map[self.target]  # type: ignore[attr-defined]
+        return self.symbol_map[self.target]  # ty:ignore[unresolved-attribute]
 
     @property
     def final_target(self) -> Reflection:
@@ -391,7 +409,7 @@ class Module(Reflection):
     def exports(self) -> list[Reflection]:
         for child in self.children:
             if child.kind is ReflectionKind.FUNCTION and child.name == "export=":
-                return child.exports  # type: ignore[attr-defined]
+                return child.exports  # ty:ignore[unresolved-attribute]
         return []
 
 
@@ -441,10 +459,10 @@ class Function(Reflection):
                 id=prop.id,
                 variant="reference",
                 name=prop.name,
-                target=prop.type.target,  # type: ignore[arg-type,union-attr]
+                target=prop.type.target,  # ty:ignore[invalid-argument-type,unresolved-attribute]
                 parent=self.parent,
             )
-            for prop in self.signatures[0].type.declaration.children  # type: ignore[union-attr]
+            for prop in self.signatures[0].type.declaration.children  # ty:ignore[unresolved-attribute]
         ]
 
 
