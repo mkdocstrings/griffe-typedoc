@@ -1,19 +1,22 @@
 # Griffe TypeDoc
 
 [![ci](https://github.com/mkdocstrings/griffe-typedoc/workflows/ci/badge.svg)](https://github.com/mkdocstrings/griffe-typedoc/actions?query=workflow%3Aci)
-[![documentation](https://img.shields.io/badge/docs-mkdocs-708FCC.svg?style=flat)](https://mkdocstrings.github.io/griffe-typedoc/)
+[![documentation](https://img.shields.io/badge/docs-zensical-FF9100.svg?style=flat)](https://mkdocstrings.github.io/griffe-typedoc/)
 [![pypi version](https://img.shields.io/pypi/v/griffe-typedoc.svg)](https://pypi.org/project/griffe-typedoc/)
-[![gitter](https://badges.gitter.im/join%20chat.svg)](https://app.gitter.im/#/room/#griffe-typedoc:gitter.im)
+[![gitter](https://img.shields.io/badge/matrix-chat-4DB798.svg?style=flat)](https://app.gitter.im/#/room/#griffe-typedoc:gitter.im)
 
-Signatures for entire TypeScript programs using [TypeDoc](https://typedoc.org/).
-
-WARNING: **Still in prototyping phase!**
-Feedback is welcome.
+Signatures for entire TypeScript programs using TypeDoc.
 
 ## Installation
 
 ```bash
 pip install griffe-typedoc
+```
+
+With [`uv`](https://docs.astral.sh/uv/):
+
+```bash
+uv tool install griffe-typedoc
 ```
 
 ## Usage
@@ -80,3 +83,8 @@ data = load(
 ```
 
 See our [API reference](https://mkdocstrings.github.io/griffe-typedoc/reference/griffe_typedoc/).
+
+## Sponsors
+
+<!-- sponsors-start -->
+<!-- sponsors-end -->
