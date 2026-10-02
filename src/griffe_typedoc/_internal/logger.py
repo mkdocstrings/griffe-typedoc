@@ -32,12 +32,19 @@ class LogLevel(Enum):
     """Enumeration of available log levels."""
 
     trace = "trace"
+    """Detailed tracing messages."""
     debug = "debug"
+    """Debugging messages."""
     info = "info"
+    """Informational messages."""
     success = "success"
+    """Messages reporting successful operations."""
     warning = "warning"
+    """Warning messages."""
     error = "error"
+    """Error messages."""
     critical = "critical"
+    """Critical error messages."""
 
 
 class _Logger:
