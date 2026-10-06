@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.1.1](https://github.com/mkdocstrings/griffe-typedoc/releases/tag/0.1.1) - 2026-10-06
+
+<small>[Compare with 0.1.0](https://github.com/mkdocstrings/griffe-typedoc/compare/0.1.0...0.1.1)</small>
+
+### Build
+
+- Drop support for Python 3.10 ([1bbfc3e](https://github.com/mkdocstrings/griffe-typedoc/commit/1bbfc3e89a0b6a5b3ffb6089af908087711bdee0) by Timothée Mazzucotelli).
+
 ## [0.1.0](https://github.com/mkdocstrings/griffe-typedoc/releases/tag/0.1.0) - 2025-03-09
 
 <small>[Compare with first commit](https://github.com/mkdocstrings/griffe-typedoc/compare/b45ec86ea0170938f0daec03e4b788cb1c6e9222...0.1.0)</small>
