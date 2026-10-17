@@ -601,6 +601,8 @@ class Project(Reflection):
     """Version of the documented package."""
     files: FileRegistry | None = None
     """Registry of source files in the project."""
+    schema_version: str | None = None
+    """Version of the TypeDoc JSON schema, if included in the output."""
 
     @property
     def kind(self) -> ReflectionKind:
